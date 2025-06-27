@@ -1,0 +1,130 @@
+// Custom Modules
+{
+  // Empty
+  "custom/empty": {
+    "format": ""
+  },
+
+    // Tools
+  "custom/tools": {
+    "format": "",
+    "tooltip-format": "Tools"
+  },
+
+  // Updates Count
+//  "custom/updates": {
+//    "format": "  {}",
+//    "escape": true,
+//    "return-type": "json",
+//    "exec": "~/.config/ml4w/scripts/updates.sh",
+//    "interval": 1800,
+//    "on-click": "~/.config/ml4w/settings/installupdates.sh",
+//    "on-click-right": "~/.config/ml4w/settings/software.sh"
+//  },
+
+  // Wallpaper
+  "custom/wallpaper": {
+    "format": "",
+    "on-click": "bash -c waypaper &",
+    "on-click-right": "~/.config/hypr/scripts/wallpaper-effects.sh",
+    "tooltip-format": "Left: Select a wallpaper\nRight: Select wallpaper effect"
+  },
+
+//  // Waybar Themes
+//  "custom/waybarthemes": {
+//    "format": "",
+//    "on-click": "~/.config/waybar/themeswitcher.sh",
+//    "tooltip-format": "Select a waybar theme"
+//  },
+
+  // Settings
+  "custom/settings": {
+    "format": "",
+    "on-click": "",
+    "tooltip-format": "Dotfiles Settings"
+  },
+
+  // Keybindings
+  "custom/keybindings": {
+    "format": "",
+    "on-click": "~/.config/hypr/scripts/keybindings.sh",
+    "tooltip": false
+  },
+
+  // ChatGPT Launcher
+  "custom/chatgpt": {
+    "format": " ",
+    "on-click": "~/.config/ml4w/settings/ai.sh",
+    "tooltip-format": "AI Support"
+  },
+
+  // Calculator
+  "custom/calculator": {
+    "format": "",
+    "on-click": "qalculate-gtk",
+    "tooltip-format": "Open calculator"
+  },
+
+  // Windows VM
+  "custom/windowsvm": {
+    "format": "",
+    "on-click": "~/.config/ml4w/scripts/launchvm.sh",
+    "tooltip": false
+  },
+
+  // SwayNC
+  "custom/notification": {
+    "tooltip-format": "Left: Notifications\nRight: Do not disturb",
+    "format": "{icon}",
+    "format-icons": {
+      "notification":
+        "<span rise='8pt'><span foreground='red'><sup></sup></span></span>",
+      "none": "",
+      "dnd-notification":
+        "<span rise='8pt'><span foreground='red'><sup></sup></span></span>",
+      "dnd-none": "",
+      "inhibited-notification":
+        "<span rise='8pt'><span foreground='red'><sup></sup></span></span>",
+      "inhibited-none": "",
+      "dnd-inhibited-notification":
+        "<span rise='8pt'><span foreground='red'><sup></sup></span></span>",
+      "dnd-inhibited-none": ""
+    },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
+  },
+
+//  // Hyprshade
+//  "custom/hyprshade": {
+//    "format": "",
+//    "tooltip-format": "Toggle Screen Shader",
+//    "on-click": "sleep 0.5; ~/.config/hypr/scripts/hyprshade.sh",
+//    "on-click-right": "sleep 0.5; ~/.config/hypr/scripts/hyprshade.sh rofi"
+//  },
+
+//  // Hypridle inhibitor
+//  "custom/hypridle": {
+//    "format": "",
+//   "return-type": "json",
+//    "escape": true,
+//    "exec-on-event": true,
+//    "interval": 60,
+//    "exec": "~/.config/hypr/scripts/hypridle.sh status",
+//    "on-click": "~/.config/hypr/scripts/hypridle.sh toggle"
+//  },
+
+  "custom/exit": {
+    "format": "<span size='13000'>⏻</span>",
+    "on-click": "~/.config/wlogout/wlogout.sh",
+    "on-click-right": "hyprlock",
+    "tooltip-format": "Left: Power menu\nRight: Lock screen"
+  },
+  "custom/notify": {
+    "format": "",
+    "on-click": "swaync-client -t"
+  },
+}
