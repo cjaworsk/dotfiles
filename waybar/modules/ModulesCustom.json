@@ -119,7 +119,8 @@
 
   "custom/exit": {
     "format": "<span size='13000'>⏻</span>",
-    "on-click": "~/.config/wlogout/wlogout.sh",
+    //"on-click": "~/.config/wlogout/wlogout.sh",
+    "on-click": "~/.config/rofi/powermenu/.powermenu.sh",
     "on-click-right": "hyprlock",
     "tooltip-format": "Left: Power menu\nRight: Lock screen"
   },

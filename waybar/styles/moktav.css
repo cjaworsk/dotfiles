@@ -1,0 +1,83 @@
+@import "../wallust/colors-waybar.css";
+
+/* @define-color background rgba(30,30,46,0.8);
+ * @define-color foreground #cdd6f4; */
+
+
+* {
+  font-family: JetBrainsMono Nerd Font Propo;
+  font-size: 14px;
+  font-weight: 500;
+  min-height: 0;
+}
+
+tooltip {
+  color: @foreground;
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
+#waybar {
+  background-color: transparent;
+}
+
+#waybar > box {
+  margin: 4px 8px 0 8px;
+}
+
+#workspaces,
+#window,
+#tray,
+#hardware,
+#control,
+#clock,
+#custom-notify {
+  background-color: @background;
+  border: 1px ridge @color8;
+  color: @foreground;
+  padding: 5px 16px;
+  border-radius: 10px;
+}
+
+#hardware #cpu,
+#hardware #temperature,
+#control #battery,
+#control #network,
+#control #bluetooth {
+  margin-right: 16px;
+}
+
+/* Workspaces module is built different */
+
+#workspaces {
+  padding: 0 9px;
+}
+
+#workspaces button {
+  color: @foreground;
+  padding: 0 5px;
+  border-radius: 10px;
+}
+
+#workspaces button.focused {
+  color: @color11;
+}
+
+#workspaces button.urgent {
+  color: @color9;
+}
+
+#workspaces button:hover {
+  box-shadow: none;
+}
+
+/* Spacing for long window title */
+#window {
+  margin-right: 8px;
+}
+
+/* Padding for empty window title */
+#waybar.empty #window {
+  padding-right: 8px;
+}
+

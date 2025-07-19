@@ -1,0 +1,12 @@
+{
+  "layer": "overlay",
+  "position": "top",
+  "output": "eDP-1", // Change to your monitor
+  "modules-left": ["custom/menu"],
+  "custom/menu": {
+    "format": " Settings\n Terminal\n Firefox",
+    "exec": "echo", // dummy
+    "tooltip": false
+  }
+}
+
