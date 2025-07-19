@@ -1,0 +1,151 @@
+(defpoll volume_percent :initial "50" :interval "3s" "pamixer --get-volume")
+(defpoll mic_percent :initial "50" :interval "3s" "pamixer --default-source --get-volume")
+
+(defvar vol_reveal false)
+(defvar br_reveal false)
+(defvar music_reveal false)
+(defvar wifi_rev false)
+(defvar time_rev false)
+
+(defpoll COL_WLAN :initial "#a6e3a1" :interval "1m" "~/.config/eww/scripts/wifi --COL")
+(defpoll ESSID_WLAN :interval "1m" "~/.config/eww/scripts/wifi --ESSID")
+(defpoll WLAN_ICON :interval "1m" "~/.config/eww/scripts/wifi --ICON")
+
+(defpoll current_datetime :interval "1s"
+  "date '+%A %B %d, %I:%M:%S %p'")
+
+(defvar battery_icon "")
+
+(defvar workspaces '[{"num": 1, "class": "occupied", "icon": "●"},{"num": 2, "class": "occupied", "icon": "●"},{"num": 3, "class": "focused", "icon": "◉"},{"num": 4, "class": "empty", "icon": "○"},{"num": 5, "class": "empty", "icon": "○"},{"num": 6, "class": "empty", "icon": "○"}]')
+
+(defwidget workspace_widget []
+  (box :halign "start" :class "workspace"
+    (for ws in workspaces
+      (button
+        :class "${ws.class}"
+        :onclick "swaymsg workspace ${ws.num}"
+        (label :text "${ws.icon}")))))
+
+(defwidget clock []
+  (box :class "clock" :space-evenly "false" :orientation "h" :spacing "3"
+    (label :text current_datetime)))
+
+(defwidget wifi [] 
+  (eventbox :onhover "eww update wifi_rev=true"
+			  :onhoverlost "eww update wifi_rev=false"
+		(box :vexpand "false" :hexpand "false" :space-evenly "false"
+				(button :class "module-wif" :onclick "kitty --class nmtui" :limit-width 12 :style "color: ${COL_WLAN};" WLAN_ICON)
+	(revealer :transition "slideright"
+			  :reveal wifi_rev
+			  :duration "350ms"
+	(label    :class "module_essid"
+			  :text ESSID_WLAN
+			  )))))
+
+(defwidget volume []
+  (eventbox :onhover "eww update vol_reveal=true"
+			  :onhoverlost "eww update vol_reveal=false"
+  (box :halign: "start" :class "module-2" :space-evenly "false" :orientation "h" :spacing "3" 
+	(button :onclick "scripts/pop audio"   :class "volume_icon" "")
+	(revealer :transition "slideleft"
+			  :reveal vol_reveal
+			  :duration "350ms"
+	  (scale  :class "volbar"
+			  :value volume_percent
+			  :orientation "h"
+			  :tooltip "${volume_percent}%"
+			  :max 100
+			  :min 0
+			  :onchange "pamixer --set-volume {}" ))))
+)
+
+(defwidget audio []
+	(box :class "audio-box" :orientation "v" :space-evenly "false" :vexpand "false" :hexpand "false"
+	(box :halign "start" :space-evenly "false" :hexpand "false" :vexpand "false"
+	(box :class "speaker_icon" :orientation "v")
+	(box :orientation "v" :halign "center" :vexpand "false" :hexpand "false"
+    (label :class "speaker_text" :text "speaker" :valign "center" :halign "start" )
+	(box :class "speaker_bar" :halign "center" :vexpand "false" :hexpand "false"
+	(scale :value volume_percent
+        :space-evenly "false"
+			  :orientation "h"
+			  :onchange "pamixer --set-volume {}" 
+              :tooltip "volume on ${volume_percent}%"
+			  :max 100
+			  :min 0))))
+            (label :text "" :class "audio_sep" :halign "center")
+	(box :halign "start" :space-evenly "false" :hexpand "false" :vexpand "false"
+	(box :class "mic_icon" :orientation "v")
+	(box :orientation "v" :halign "center" :vexpand "false" :hexpand "false"
+    (label :class "mic_text" :text "mic" :valign "center" :halign "start" )
+	(box :class "mic_bar" :halign "center" :vexpand "false" :hexpand "false"
+	(scale :value mic_percent
+        ;:space-evenly "false"
+			  :orientation "h"
+              :tooltip "mic on ${mic_percent}%"
+			  :onchange "pamixer --default-source --set-volume {}" 
+			  :max 100
+			  :min 0))))))
+
+(defwindow audio_ctl
+  :monitor 0
+	:geometry (geometry :x "0px" 
+						:y "5px" 
+            :anchor "top right"
+						:width "280px" 
+						:height "60px")
+(audio))
+
+(defwindow system
+	:geometry (geometry :x "-20px" 
+						:y "30px" 
+            :anchor "top right"
+						:width "290px" 
+						:height "120px")
+(system))
+
+(defwidget bar[]
+  (centerbox
+      (box  :class "left_modules"
+            :orientation "h"
+            :halign "start"
+            (workspace_widget)
+            ;(window)
+      )
+      (box  :class "center_modules"
+            :orientation "h"
+            :halign "center"
+            (clock)
+      )
+      (box  :class "right_modules" :orientation "h" :halign "end" :space-evenly "false"
+            (volume)
+            (wifi)
+            ;(bluetooth)
+            ;(battery)
+            ;(notify))
+      )
+    
+  )
+)
+
+(defwindow bar
+    :monitor 0
+    :geometry (geometry :width "100%" :anchor "top center")
+    :windowtype "dock"
+    :exclusive true
+    :stacking "fg"
+    (bar)
+)
+
+;workspaces :array {[1,2,3,4,5]}
+;(defwidget workspaces [array]
+;  (box   
+;    :class "workspaces"
+;    :orientation "h"
+;    :space-evenly true
+;    :halign "start"
+;
+; (for entry in array
+;  (button :onclick `swaymsg workspace "${entry.name}"`
+;        :class {entry.focused ? "focused" : ""}
+;   `${entry.name}`))))

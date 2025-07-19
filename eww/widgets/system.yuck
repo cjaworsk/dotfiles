@@ -1,0 +1,47 @@
+(defwidget system []
+  (box 
+      :class "system_window" 
+      :orientation "h" 
+      :space-evenly "false" 
+      :hexpand "false" 
+      :vexpand "false" 
+      :spacing 13
+      (sys_cpu_widget)
+      (sys_mem_widget)
+  )
+)
+
+(defwidget sys_cpu_widget []
+  (box 
+      :class "sys_cpu_box" 
+      :orientation "v" 
+      :space-evenly "false" 
+      :hexpand "false" 
+      :vexpand "false"
+      
+      (circular-progress
+          :value {cpu_usage}
+          :class "sys_cpu"
+          :thickness 80
+          (label :text " " ;;"󰍛"
+              :halign "center"
+              :valign "center"
+              :class "system_icon" ))))
+
+(defwidget sys_mem_widget []
+  (box 
+      :class "sys_mem_box" 
+      :orientation "v" 
+      :space-evenly "false" 
+      :hexpand "false" 
+      :vexpand "false"
+      
+      (circular-progress
+          :value mem_usage
+          :class "sys_mem"
+          :thickness 80
+          (label :text " "
+                  :class "system_icon" ))
+      (label 
+          :text "MEM"
+          :class "sys_label_mem")))
