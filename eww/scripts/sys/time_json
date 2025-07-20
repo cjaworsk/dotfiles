@@ -1,3 +1,0 @@
-#!/bin/bash
-date +'{"date":"%d/%m","hour":"%H","minute":"%M","day":"%A"}'
-
