@@ -1,0 +1,68 @@
+.mem_circle {
+  color: $primary; // fill color
+  background-color: rgba($primary, 0.1); // background ring
+  margin: 1rem;
+
+  .mem_label {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: $onSurface;
+  }
+}
+
+.cc_cc {
+    font-size: 28;
+    margin: 32px;
+}
+
+.system_icon {
+  font-size: 10px;
+  margin: 30px;
+  color: $primary;
+}
+
+.sys_icon_bat, .sys_icon_mem, .sys_icon_cpu{
+    font-size: 24;
+    margin: 20px 0px 0px 0px;
+}
+.system_window {
+    background-color: $cat-surface0;
+    border-radius: 20px;
+}
+.sys_cpu {
+  color: $catpeach;
+    background-color: $shadow;
+  border-radius: 20px;
+}
+.sys_bat {
+  color: $catgreen;
+    background-color: $shadow;
+  border-radius: 20px;
+}
+.sys_mem {
+  color: $primary;
+    background-color: $shadow;
+  border-radius: 20px;
+  
+}
+.sys_label_bat {
+    color: #bfc9db;
+}
+.sys_label_cpu {
+    color: #bfc9db;
+}
+.sys_label_mem {
+    color: $cat-sapphire;
+}
+.sys_bat_box {
+	border-radius: 16px;
+    margin: 30px 0px 10px 50px;
+  }
+.sys_cpu_box {
+	border-radius: 16px;
+    margin: 30px 50px 10px 50px;
+  }
+.sys_mem_box {
+	border-radius: 16px;
+    margin: 30px 50px 15px 0px;
+  }
