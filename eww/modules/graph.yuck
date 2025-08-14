@@ -1,0 +1,89 @@
+(defvar show-graph false)
+
+(defwidget graph_gen [label name value ?duration]
+    ;(info-box
+    (box
+        :orientation "vertical"
+        :space-evenly false
+        :class 'graph_widget'
+        ; Where the graph goes
+        (box 
+            :vexpand true
+            :space-evenly false
+                (label
+                    :text "${label}"
+                    :halign "start"
+                    :justify "left"
+                    :width 10
+                    :angle 0
+                )
+            (box
+                :class '${label}_graph_box graph_box'
+                :orientation 'horizontal'
+                :halign 'fill'
+                :hexpand true
+
+                (graph
+                    :halign 'fill'
+                    :hexpand true
+                    :class "${name}_graph"
+                    :value value
+                    :time-range {duration == "" ? "20s" : duration}
+                    :max 100
+                    :line-style "round"
+                    :thickness 5.0
+                )
+            )
+        )
+        ; Graph labels
+        (box 
+            :class 'graph_label'
+            :orientation 'horizontal'
+            ;:height 10
+            :vexpand false
+            :valign 'center'
+            :space-evenly true
+            (label
+                :text {duration == "" ? "20s" : duration})
+            (label
+                :text "${value}%")
+            (label
+                :text "0s")
+
+        )
+    ;)
+    )
+)
+
+(defwidget sys_info []
+    (box 
+        :orientation "vertical"
+        (graph_gen 
+            :label "C
+P
+U"
+            :name "cpu"
+            :value "${round(jq(EWW_CPU, '.avg'), 1)}"
+        )
+        (graph_gen
+            :label "M
+E
+M"
+            :name "mem"
+            :value "${round(jq(EWW_RAM, '.used_mem_perc'), 1)}"
+            :duration "60s"
+        )
+    )
+)
+
+(defwindow sys_info
+    :monitor 0
+    :geometry (geometry :x "0px"
+                        :y "0px"
+                        :anchor "top right"
+                        :width "300px"
+                        :height "200px")
+    :exclusive false
+    :stacking "fg"
+    (sys_info)
+)

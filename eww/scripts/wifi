@@ -1,0 +1,17 @@
+#!/bin/bash
+
+status=$(nmcli g | grep -oE "disconnected")
+essid=$(nmcli -t -f active,ssid dev wifi | grep 'yes' | cut -d':' -f2)
+
+if [[ $status ]]; then
+    icon="󰤭"
+    text=""
+    col="#f38ba8"
+else
+    icon="󰤨"
+    text="$essid"
+    col="#a6e3a1"
+fi
+
+# Output valid JSON with escaped values
+printf '{"icon":"%s","ssid":"%s","color":"%s"}\n' "$icon" "$text" "$col"

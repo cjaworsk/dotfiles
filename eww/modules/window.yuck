@@ -1,0 +1,3 @@
+(defwidget window_module []
+  (box :halign "start" :valign "center" :class "window-title" :space-evenly false
+    (literal :content current_window)))

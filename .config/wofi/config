@@ -1,0 +1,14 @@
+term=kitty
+location=center
+width=500
+heigh=400
+prompt= Search...
+show_all=true
+gtk_dark=false
+insensitive=false
+allow_makrup=true
+allow_images=true
+line_wrap=word
+lines=8
+no_actions=true
+hide_scroll=true

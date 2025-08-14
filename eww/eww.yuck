@@ -1,0 +1,23 @@
+;; Bar ;;
+(include "variables.yuck")
+(include "modules/bar.yuck")
+(include "windows.yuck")
+
+;; Bar Modules ;;
+(include "modules/battery.yuck")
+(include "modules/brightness.yuck")
+(include "modules/clock.yuck")
+(include "modules/memory.yuck")
+(include "modules/powermenu.yuck")
+(include "modules/volume.yuck")
+(include "modules/wallpaper.yuck")
+(include "modules/wifi.yuck")
+(include "modules/window.yuck")
+(include "modules/workspace.yuck")
+(include "modules/weather.yuck")
+;(include "modules/vpn.yuck")
+
+;; Popup Modules ;;
+(include "modules/graph.yuck")
+(include "modules/calendar.yuck")
+(include "control_center.yuck")

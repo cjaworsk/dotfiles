@@ -1,0 +1,12 @@
+# ~/.config/quickshell/config.toml
+[shell]
+program = "bash"  # or "zsh", "fish"
+
+[theme]
+background = "#1e1e2e"
+foreground = "#cdd6f4"
+accent = "#89b4fa"
+selection_background = "#313244"
+selection_foreground = "#f5e0dc"
+border_radius = 5
+

@@ -1,0 +1,12 @@
+(defwidget left_dashboard []
+  (box :class "dashboard" :orientation "v"
+    ;(fastfetch_widget)
+    ;(clock_widget)
+    (system)
+    ;(music_widget)
+    ;(volume_widget)
+    ;(brightness_widget)
+    ;(powermenu_widget)
+  )
+)
+

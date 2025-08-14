@@ -1,0 +1,3 @@
+(defwidget workspace_module []
+  (box :halign "start" :class "workspace" :space-evenly true
+    (literal :content workspace_buttons)))

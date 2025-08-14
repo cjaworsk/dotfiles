@@ -1,0 +1,27 @@
+(defwidget bar[]
+  (centerbox :class "bar_class"
+    ;; Left
+    (box :class "left_modules" :orientation "h" :halign "start" :space-evenly false
+      (workspace_module)
+      (window_module))
+
+    ;; Center
+    (box :class "center_modules" :orientation "h" :halign "center"
+      (weather_module)) ;; Empty placeholder
+
+    ;; Right
+    (centerbox :class "right_modules" :orientation "h" :halign "end"
+      (box :halign "start" :space-evenly false
+        (wallpaper_module)
+        (wifi_module)
+        (brightness_module)
+        (volume_module)
+        (label :class "bar_sep" :text "|"))
+      (box :space-evenly true
+        (memory_module)
+        (battery_module :reveal_var "bat_stack" :stack_num bat_stack))
+      (box :space-evenly false
+        (label :class "bar_sep" :text "|")
+        (clock_module)
+        (powermenu)))))
+

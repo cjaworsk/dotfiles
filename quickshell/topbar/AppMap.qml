@@ -1,0 +1,103 @@
+pragma Singleton
+import QtQuick
+import Quickshell
+
+QtObject {
+    id: root
+
+    property var APP_MAP = {
+            "kitty": "󰄛 Kitty Terminal",
+            "firefox": "󰈹 Firefox",
+            "microsoft-edge": "󰇩 Edge",
+            "discord": " Discord",
+            "vesktop": " Vesktop",
+            "org.kde.dolphin": " Dolphin",
+            "plex": "󰚺 Plex",
+            "steam": " Steam",
+            "spotify": "󰓇 Spotify",
+            "ristretto": "󰋩 Ristretto",
+            "obsidian": "󱓧 Obsidian",
+            "rofi": " Rofi",
+            "qBittorrent": " qBittorrent",
+            "soundcloud-rpc": " Soundcloud",
+            "": "󰍹 Desktop",
+            "google-chrome": " Google Chrome",
+            "brave-browser": "󰖟 Brave Browser",
+            "chromium": " Chromium",
+            "opera": " Opera",
+            "vivaldi": "󰖟 Vivaldi",
+            "waterfox": "󰖟 Waterfox",
+            "thorium": "󰖟 Thorium",
+            "tor-browser": " Tor Browser",
+            "floorp": "󰈹 Floorp",
+            "zen": " Zen Browser",
+            "gnome-terminal": " GNOME Terminal",
+            "konsole": " Konsole",
+            "alacritty": " Alacritty",
+            "wezterm": " Wezterm",
+            "foot": "󰽒 Foot Terminal",
+            "tilix": " Tilix",
+            "xterm": " XTerm",
+            "urxvt": " URxvt",
+            "com.mitchellh.ghostty": "󰊠 Ghostty",
+            "st": " st Terminal",
+            "code": "󰨞 Visual Studio Code",
+            "vscode": "󰨞 VS Code",
+            "sublime-text": " Sublime Text",
+            "atom": " Atom",
+            "android-studio": "󰀴 Android Studio",
+            "jetbrains-idea": " IntelliJ IDEA",
+            "jetbrains-pycharm": " PyCharm",
+            "jetbrains-webstorm": " WebStorm",
+            "jetbrains-phpstorm": " PhpStorm",
+            "eclipse": " Eclipse",
+            "netbeans": " NetBeans",
+            "docker": " Docker",
+            "vim": " Vim",
+            "neovim": " Neovim",
+            "neovide": " Neovide",
+            "emacs": " Emacs",
+            "slack": "󰒱 Slack",
+            "telegram-desktop": " Telegram",
+            "org.telegram.desktop": " Telegram",
+            "whatsapp": "󰖣 WhatsApp",
+            "teams": "󰊻 Microsoft Teams",
+            "skype": "󰒯 Skype",
+            "thunderbird": " Thunderbird",
+            "signal": "󰭹 Signal",
+            "nautilus": "󰝰 Files (Nautilus)",
+            "thunar": "󰝰 Thunar",
+            "pcmanfm": "󰝰 PCManFM",
+            "nemo": "󰝰 Nemo",
+            "ranger": "󰝰 Ranger",
+            "doublecmd": "󰝰 Double Commander",
+            "krusader": "󰝰 Krusader",
+            "vlc": "󰕼 VLC Media Player",
+            "mpv": " MPV",
+            "rhythmbox": "󰓃 Rhythmbox",
+            "gimp": " GIMP",
+            "inkscape": " Inkscape",
+            "krita": " Krita",
+            "blender": "󰂫 Blender",
+            "kdenlive": " Kdenlive",
+            "lutris": "󰺵 Lutris",
+            "heroic": "󰺵 Heroic Games Launcher",
+            "minecraft": "󰍳 Minecraft",
+            "csgo": "󰺵 CS:GO",
+            "dota2": "󰺵 Dota 2",
+            "evernote": " Evernote",
+            "sioyek": " Sioyek",
+            "dropbox": "󰇣 Dropbox"
+    }
+
+    function getIcon(appId) {
+        return icons[appId] || "󰣆"  // fallback icon
+    }
+
+    function getLabel(appId) {
+        // optional: return full app name if you want text labels
+        return appId || "Desktop"
+    }
+}
+
+

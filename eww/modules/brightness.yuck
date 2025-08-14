@@ -1,0 +1,14 @@
+(defwidget brightness_module []
+  (eventbox :onhover "eww update br_reveal=true"
+            :onhoverlost "eww update br_reveal=false"
+    (box :class "module-2" :orientation "h" :space-evenly false :spacing "3"
+      (label :text "${
+        brightness_percent > 75 ? "󰃠" :
+        brightness_percent > 50 ? "󰃝" :
+        brightness_percent > 25 ? "󰃟" : "󰃞" }"
+        :class "bright_icon" :tooltip "brightness")
+      (revealer :transition "slideright" :reveal br_reveal :duration "350ms"
+        (scale :class "brightbar" :value brightness_percent
+               :tooltip "${brightness_percent}%"
+               :orientation "h" :max 100 :min 0
+               :onchange "brightnessctl set {}%")))))

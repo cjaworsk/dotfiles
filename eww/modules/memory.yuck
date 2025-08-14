@@ -1,0 +1,9 @@
+(defwidget memory_module []
+  (eventbox :class "mem_module" :onclick "scripts/pop system &"
+            :onhover "eww update mem_reveal=1" :onhoverlost "eww update mem_reveal=0"
+    (stack :transition "crossfade" :selected mem_reveal :same-size true
+      (circular-progress :value "${EWW_RAM.used_mem_perc}" :class "membar" :thickness 4
+        (button :class "iconmem" :tooltip "RAM: ${round(EWW_RAM.used_mem * 0.0000000009313225746154785, 2)} / ${round(EWW_RAM.total_mem * 0.0000000009313225746154785, 2)} GB"
+                :onclick "scripts/pop system &"
+                :limit-width 2 "󰍛"))
+      (label :class "labelmem" :text "${round(EWW_RAM.used_mem_perc, 0)}"))))

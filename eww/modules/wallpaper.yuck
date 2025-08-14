@@ -1,0 +1,6 @@
+(defwidget wallpaper_module []
+  (button :onclick "bash ~/.config/scripts/random_wallpaper.sh"
+          :onrightclick "exec waypaper &"
+          :tooltip "Generate Random Wallpaper"
+          :class "icon-button"
+    (label :class "icon-label" :text "󰸉")))

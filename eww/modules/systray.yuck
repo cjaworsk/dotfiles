@@ -1,0 +1,3 @@
+(defwidget sys_tray []
+  (systray :spacing "2" :orientation "h" :icon-size "13")
+)

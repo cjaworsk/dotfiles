@@ -1,0 +1,7 @@
+module Topbar
+Bar 1.0 Bar.qml
+Workspaces 1.0 Workspaces.qml
+ClockWidget 1.0 ClockWidget.qml
+Time 1.0 Time.qml
+ActiveWindow 1.0 ActiveWindow.qml
+AppMap 1.0 AppMap.qml

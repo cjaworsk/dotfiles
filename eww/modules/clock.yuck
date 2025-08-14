@@ -1,0 +1,23 @@
+(defwidget clock_module []
+  (eventbox
+    :onhover "eww update show_time=1"
+    :onhoverlost "eww update show_time=0"
+    (stack :selected show_time :transition "slideup" :same-size true
+      ;; Time View
+      (box :class "clock_view"
+        (revealer
+          :transition "slideup"
+          :duration "200ms"
+          :reveal true ;; always true, we animate *in-place*
+          (box
+            (label :text "${time.hour}" :class "clock_time_class")
+            (label :text ":" :class "clock_time_sep")
+            (label :text "${time.min}" :class "clock_minute_class"))))
+      ;; Date View
+      (box :class "clock_view"
+        (revealer
+          :transition "slideup"
+          :duration "200ms"
+          :reveal true
+          (label :text "${clock_date}" :class "clock_date_class"))))))
+

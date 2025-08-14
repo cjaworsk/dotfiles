@@ -1,0 +1,265 @@
+;; ===============================
+;; Variables & Polling
+;; ===============================
+;;
+;; Scripts used: audio_icon, current_window, pop, start-eww, sway.py, wifi, update_battery_icon
+
+(defpoll volume_percent :initial "50" :interval "3s" "pamixer --get-volume")
+(defpoll mic_percent :initial "50" :interval "3s" "pamixer --default-source --get-volume")
+(defpoll brightness_percent :initial "100" :interval "2s"
+  "brightnessctl -m -d intel_backlight | awk -F, '{print substr($4, 0, length($4)-1)}' | tr -d '%'")
+
+(defpoll wifi :initial '{"icon":"󰤨", "ssid":"N/A", "color": #444444 }' :interval "10s" "scripts/wifi &")
+(defpoll bat-icon :initial "󰁹" :interval "5s" "scripts/update_battery_icon.sh")
+(defpoll time :initial '{"hour":"00", "min":"00"}' :interval "5s" `date +'{"hour":"%H","min":"%M"}'`)
+(defpoll clock_date :interval "30s" "date '+%m/%d'")
+(defpoll current_date :interval "5s" `date +'{"day":"%d","month":"%m","year":"%Y"}'`)
+;(defpoll audio_icon :interval "5s" :initial "" "scripts/audio_icon.sh")
+
+(defpoll music_data :interval "1s" "scripts/music_info.sh")
+
+
+(deflisten workspace_buttons "scripts/sway.py")
+(deflisten current_window "scripts/current_window.py")
+(deflisten audio_icon "scripts/audio_icon.py")
+
+;; Toggle variables
+(defvar vol_reveal false)
+(defvar br_reveal false)
+(defvar music_panel_open false)
+(defvar wifi_rev false)
+(defvar time_rev false)
+(defvar mem_reveal 0) ;;uses stack
+(defvar power_menu_reveal false)
+(defvar bat-class "bat-green")
+(defvar wall-msg "󰸉")
+(defvar show_time 0) ;;uses stack
+
+;; ===============================
+;; Widgets - Left Bar
+;; ===============================
+
+(defwidget workspace_widget []
+  (box :halign "start" :class "workspace" :space-evenly true
+    (literal :content workspace_buttons)))
+
+
+(defwidget window_title []
+  (box :halign "start" :valign "center" :class "window-title" :space-evenly false
+    (literal :content current_window)))
+
+;; ===============================
+;; Widgets - Center Bar
+;; ===============================
+
+(defwidget music-widget []
+  (button
+    :onclick "eww update music_panel_open=true"
+    :tooltip "Open Music Panel"
+    :class "music-button"
+    "🎵"))
+
+;;cava?
+
+;; ===============================
+;; Widgets - Right Bar
+;; ===============================
+
+(defwidget wifi [] 
+  (eventbox :onhover "eww update wifi_rev=true"
+            :onhoverlost "eww update wifi_rev=false"
+    (box :space-evenly "false"
+      (button :class "module-wifi"
+        (label :text "${wifi.icon}" :style "color: ${wifi.color}"))
+      (revealer :transition "slideleft" :reveal wifi_rev :duration "350ms"
+        (label :class "module_essid" :text "${wifi.ssid}")))))
+
+(defwidget volume []
+  (eventbox :onhover "eww update vol_reveal=true"
+            :onhoverlost "eww update vol_reveal=false"
+    (box :class "module-2" :valign "center" :orientation "h" :spacing "3" :space-evenly false
+      (literal :content audio_icon)
+      ;(button :onclick "scripts/pop audio &" :class "volume_icon" "${audio_icon}")
+      (revealer :transition "slideleft" :reveal vol_reveal :duration "350ms"
+        (scale :class "volbar" :value volume_percent
+               :tooltip "${volume_percent}%"
+               :orientation "h" :max 100 :min 0
+               :onchange "pamixer --set-volume {}")))))
+
+(defwidget bright []
+  (eventbox :onhover "eww update br_reveal=true"
+            :onhoverlost "eww update br_reveal=false"
+    (box :class "module-2" :orientation "h" :space-evenly false :spacing "3"
+      (label :text "${
+        brightness_percent > 75 ? "󰃠" :
+        brightness_percent > 50 ? "󰃝" :
+        brightness_percent > 25 ? "󰃟" : "󰃞" }"
+        :class "bright_icon" :tooltip "brightness")
+      (revealer :transition "slideright" :reveal br_reveal :duration "350ms"
+        (scale :class "brightbar" :value brightness_percent
+               :tooltip "${brightness_percent}%"
+               :orientation "h" :max 100 :min 0
+               :onchange "brightnessctl set {}%")))))
+
+(defwidget bat []
+  (button :tooltip "Battery: ${EWW_BATTERY.BAT0.capacity}% ${EWW_BATTERY.BAT0.status}"
+          :class "${bat-class}"
+    (label :text "${bat-icon}")))
+
+(defwidget memory_module []
+  (eventbox :class "mem_module" :onclick "scripts/pop system &"
+            :onhover "eww update mem_reveal=1" :onhoverlost "eww update mem_reveal=0"
+    (stack :transition "crossfade" :selected mem_reveal :same-size true
+      (circular-progress :value "${EWW_RAM.used_mem_perc}" :class "membar" :thickness 4
+        (button :class "iconmem" :tooltip "RAM: ${round(EWW_RAM.used_mem * 0.0000000009313225746154785, 2)} / ${round(EWW_RAM.total_mem * 0.0000000009313225746154785, 2)} GB"
+                :onclick "scripts/pop system &"
+                :limit-width 2 "󰧞"))
+      (label :class "labelmem" :text "${round(EWW_RAM.used_mem_perc, 0)}"))))
+
+(defwidget powermenu []
+  (box :class "powermenu"
+    (button :onclick "eww update power_menu_reveal=$(eww get power_menu_reveal | grep -q true && echo false || echo true)"
+            :class "power-button"
+            "⏻")))
+
+(defwidget wallpaper_module []
+  (button :onclick "bash ~/.config/scripts/random_wallpaper.sh"
+          :onrightclick "exec waypaper &"
+          :tooltip "Random Wallpaper"
+          :class "icon-button"
+    (label :class "icon-label" :text "󰸉")))
+
+(defwidget clock_module []
+  (eventbox
+    :onhover "eww update show_time=1"
+    :onhoverlost "eww update show_time=0"
+    (stack :selected show_time :transition "slideup" :same-size true
+      ;; Time View
+      (box :class "clock_view"
+        (revealer
+          :transition "slideup"
+          :duration "200ms"
+          :reveal true ;; always true, we animate *in-place*
+          (box
+            (label :text "${time.hour}" :class "clock_time_class")
+            (label :text ":" :class "clock_time_sep")
+            (label :text "${time.min}" :class "clock_minute_class"))))
+      ;; Date View
+      (box :class "clock_view"
+        (revealer
+          :transition "slideup"
+          :duration "200ms"
+          :reveal true
+          (label :text "${clock_date}" :class "clock_date_class"))))
+  )
+)
+
+;; ===============================
+;; Popup Widgets & Windows
+;; ===============================
+
+(defwidget audio []
+  (box :class "audio-box" :orientation "v"
+    (box :halign "start"
+      (box :class "speaker_icon")
+      (box :orientation "v" :halign "center"
+        (label :class "speaker_text" :text "speaker")
+        (box :class "speaker_bar"
+          (scale :value volume_percent :orientation "h" :max 100 :min 0
+                 :onchange "pamixer --set-volume {}"
+                 :tooltip "volume on ${volume_percent}%"))))
+    (label :text "" :class "audio_sep")
+    (box :halign "start"
+      (box :class "mic_icon")
+      (box :orientation "v" :halign "center"
+        (label :class "mic_text" :text "mic")
+        (box :class "mic_bar"
+          (scale :value mic_percent :orientation "h" :max 100 :min 0
+                 :onchange "pamixer --default-source --set-volume {}"
+                 :tooltip "mic on ${mic_percent}%"))))))
+
+(defwindow audio_ctl
+  :monitor 0
+  :geometry (geometry :x "0px" :y "5px" :anchor "top right" :width "280px" :height "60px")
+  (audio))
+
+(defwidget cal []
+  (box :class "cal" :orientation "v"
+    (box :class "cal-in"
+      (calendar :class "cal"
+                :day "${current_date.day}"
+                :month "${current_date.month}"
+                :year "${current_date.year}"))))
+
+(defwindow calendar
+  :monitor 0
+  :geometry (geometry :x "0px" :y "-2px" :anchor "top right" :width "270px" :height "60px")
+  (cal))
+
+(defwindow music-panel
+  :geometry (geometry :x "0px" :y "30px" :anchor "top center" :width "600px")
+  :stacking "overlay"
+  :monitor 0
+  :visible music_panel_open
+  (box :class "music-panel"
+    :orientation "vertical"
+    :spacing 10
+    (label :text "Now Playing: ${music_data.artist} - ${music_data.title}")
+    (box
+      (button :onclick "playerctl previous" "⏮")
+      (button :onclick "playerctl play-pause" "⏯")
+      (button :onclick "playerctl next" "⏭"))
+    (scale :value "${music_data.percent}" :min 0 :max 100)
+    (button :onclick "eww update music_panel_open=false" "Close Panel")))
+
+
+(defwindow power-menu-popup
+  :monitor 0
+  :visible power_menu_reveal
+  :stacking "overlay"
+  :geometry (geometry :anchor "top right" :x "0px" :y "0px" :width "200px")
+  (box :class "power-menu" :orientation "vertical" :spacing 10 :visible power_menu_reveal
+    (button :onclick "eww update power_menu_open=false; swaylock" "🔒 Lock")
+    (button :onclick "eww update power_menu_open=false; swaymsg exit" "🚪 Logout")
+    (button :onclick "eww update power_menu_open=false; systemctl reboot" "🔄 Reboot")
+    (button :onclick "eww update power_menu_open=false; systemctl poweroff" "⏻ Shutdown")))
+
+;; ===============================
+;; Bar Layout
+;; ===============================
+
+(defwidget bar[]
+  (centerbox :class "bar_class"
+    ;; Left
+    (box :class "left_modules" :orientation "h" :halign "start" :space-evenly false
+      (workspace_widget)
+      (window_title))
+
+    ;; Center
+    (box :class "center_modules" :orientation "h" :halign "center"
+      (music-widget)) ;; Empty placeholder
+
+    ;; Right
+    (centerbox :class "right_modules" :orientation "h" :halign "end"
+      (box :halign "start" :space-evenly false
+        (wallpaper_module)
+        (wifi)
+        (bright)
+        (volume)
+        (label :class "bar_sep" :text "|"))
+      (box :space-evenly true
+        (memory_module)
+        (bat))
+      (box :space-evenly false
+        (label :class "bar_sep" :text "|")
+        (clock_module)
+        (powermenu)))))
+
+(defwindow bar
+  :monitor 0
+  :geometry (geometry :width "100%" :anchor "top center")
+  :windowtype "dock"
+  :exclusive true
+  :stacking "fg"
+  (bar))
+

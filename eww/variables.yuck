@@ -1,0 +1,49 @@
+;; ===============================
+;; Variables & Polling
+;; ===============================
+;;
+;; Scripts used: audio_icon, current_window, pop, start-eww, sway.py, wifi, update_battery_icon
+
+(defpoll volume_percent :initial "50" :interval "3s" "pamixer --get-volume")
+(defpoll mic_percent :initial "50" :interval "3s" "pamixer --default-source --get-volume")
+(defpoll brightness_percent :initial "100" :interval "2s"
+  "brightnessctl -m -d intel_backlight | awk -F, '{print substr($4, 0, length($4)-1)}' | tr -d '%'")
+
+;(defpoll vpn_status :interval "5s" "~/.config/scripts/get_vpn.sh")
+
+(defpoll wifi :initial '{"icon":"󰤨", "ssid":"N/A", "color": #444444 }' :interval "10s" "scripts/wifi &")
+(defpoll bat-icon :initial "󰁹" :interval "5s" "scripts/update_battery_icon.sh")
+(defpoll time :initial '{"hour":"00", "min":"00"}' :interval "5s" `date +'{"hour":"%H","min":"%M"}'`)
+(defpoll clock_date :interval "30s" "date '+%m/%d'")
+(defpoll current_date :interval "5s" `date +'{"day":"%d","month":"%m","year":"%Y"}'`)
+(defpoll weather_text :interval 1000 "~/.config/scripts/weather.sh")
+(defpoll music_data :interval "1s" "scripts/music_info.sh")
+;(defpoll weather_popup_text :interval 1000 "curl -s wttr.in/94530?0")
+
+(deflisten workspace_buttons "scripts/sway.py")
+(deflisten current_window "scripts/current_window.py")
+(deflisten audio_icon "scripts/audio_icon.py")
+(deflisten volume :initial "0" "scripts/volume.sh")
+(deflisten mic :initial "no" "scripts/mic.sh")
+
+;; Toggle variables
+(defvar vol_reveal false)
+(defvar br_reveal false)
+(defvar music_panel_open false)
+(defvar wifi_rev false)
+(defvar time_rev false)
+(defvar mem_reveal 0) ;;uses stack
+(defvar power_menu_reveal false)
+(defvar bat-class "bat-green")
+(defvar bat_stack 0)
+(defvar wall-msg "󰸉")
+(defvar show_time 0) ;;uses stack
+(defvar mic_reveal false)
+(defvar vpn_rev false)
+(defvar vpn_connected false)
+(defvar weather_reveal false)
+
+;; control panel variables
+(defvar panel_bat_stack 0)
+(defvar control_center_visible true)
+

@@ -1,0 +1,5 @@
+(defwidget powermenu []
+  (box :class "powermenu"
+    (button :onclick "eww update power_menu_reveal=$(eww get power_menu_reveal | grep -q true && echo false || echo true)"
+            :class "power-button"
+            "⏻")))

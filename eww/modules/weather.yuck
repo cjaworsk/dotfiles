@@ -1,0 +1,15 @@
+(defwidget weather_module []
+  (box :class "weather-module"
+    (button :onclick "eww update weather_reveal=$(eww get weather_reveal | grep -q true && echo false || echo true)"
+      (label :text "El Cerrito: ${weather_text}")
+    )
+  )
+)
+
+(defwidget weather_popup []
+  ;(revealer :transition "slidedown" :reveal weather_reveal :duration "200ms"
+    (box :visible {weather_reveal}
+      (literal :content "${weather_text}")
+    )
+  ;)
+)

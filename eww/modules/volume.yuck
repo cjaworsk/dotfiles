@@ -1,0 +1,20 @@
+(defwidget volume_module []
+  (eventbox :onhover "eww update vol_reveal=true"
+            :onhoverlost "eww update vol_reveal=false"
+    (box :class "module-2" 
+         :valign "center" 
+         :orientation "h" 
+         :spacing "3" 
+         :space-evenly false
+      (literal :content audio_icon)
+      (revealer :transition "slideleft" 
+                :reveal vol_reveal
+                :duration "350ms"
+        (scale :class "volbar"
+               :value volume
+               :tooltip "${volume}%"
+               :orientation "h" 
+               :max 100
+               :min 0
+               :timeout "400ms"
+               :onchange "pamixer --set-volume {} && swayosd-client --output-volume=+0")))))

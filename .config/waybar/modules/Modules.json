@@ -1,0 +1,267 @@
+//  __  __           _       _
+// |  \/  | ___   __| |_   _| | ___  ___
+// | |\/| |/ _ \ / _` | | | | |/ _ \/ __|
+// | |  | | (_) | (_| | |_| | |  __/\__ \
+// |_|  |_|\___/ \__,_|\__,_|_|\___||___/
+//
+//
+{
+  // Taskbar
+  "wlr/taskbar": {
+    "format": "{icon}",
+    "icon-size": 24,
+    "tooltip-format": "{title}",
+    "on-click": "activate",
+    "on-click-middle": "close",
+    //"ignore-list": ["kitty"],
+    "app_ids-mapping": {
+      "firefoxdeveloperedition": "firefox-developer-edition"
+    },
+    "rewrite": {
+      //"(.*) - Mozilla Firefox": "Firefox",
+      //"Foot Server": "Terminal"
+    }
+  },
+
+  // Hyprland Window
+  "hyprland/window": {
+    "max-length": 60,
+    "rewrite": {
+      "(.*) - Mozilla Firefox": "$1",
+      "(.*) - Brave": "$1",
+      "(.*) - Chromium": "$1",
+      "(.*) - Brave Search": "$1",
+      "(.*) - Outlook": "$1",
+      "(.*) Microsoft Teams": "$1",
+      "(.*) - Mousepad": "$1"
+    },
+    "separate-outputs": true
+  },
+
+  // Keyboard State
+  "keyboard-state": {
+    "numlock": true,
+    "capslock": true,
+    "format": "{name} {icon}",
+    "format-icons": {
+      "locked": "",
+      "unlocked": ""
+    }
+  },
+
+  // Clock
+  "clock": {
+    "format": "<span size='13000'> </span>{:%a %d, %H:%M}",
+    "format-alt": "<span size='13000'> </span> {:%H:%M}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>"
+  },
+
+  // System tray placeholder image
+  "custom/system": {
+    "format": "<span size='13000'></span>",
+    //"format": "<span size='13000'>󰅮</span>",
+    "tooltip": false
+  },
+
+    // Storage usage % data
+    "disk": {
+	    "interval": 30,
+	    "path": "/",
+	    "format": "{percentage_used}% <span size='13000'>󰋊</span>",
+	    "tooltip-format": "{used} used out of {total} on {path} ({percentage_used}%)",
+    },
+
+    // CPU usage
+    "cpu": {
+      "format": "{usage}% <span size='13000'></span>",
+      "interval": 1,
+      "min-length": 5,
+      "on-click-right": "~/.config/scripts/system-monitor.sh",
+      "format-alt-click": "click",
+	    "format-alt": "<span size='13000'>{icon0}{icon1}{icon2}{icon3}</span> {usage:>2}% 󰍛",
+	    "format-icons": [
+        "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"
+	    ],
+    },
+    // Memory usage
+    "memory": {
+     "format": "{}% <span size='13000'> </span>",
+     "on-click": "~/.config/scripts/system-monitor.sh",
+    },
+    // == End System Tray ==
+
+  "hyprland/language": {
+    "format": "/ K {short}"
+  },
+
+  // Group Hardware
+  "group/hardware": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 300,
+      "children-class": "not-hard",
+      "transition-left-to-right": false
+    },
+    "modules": ["custom/system", "disk", "cpu", "memory", "idle_inhibitor"]
+  },
+
+  // Group Tools
+  "group/tools": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 300,
+      "children-class": "not-memory",
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "custom/tools",
+      "custom/cliphist",
+      "custom/hypridle",
+      "custom/hyprshade"
+    ]
+  },
+
+  // Group Links
+  "group/links": {
+    "orientation": "horizontal",
+    "modules": [
+      "custom/chatgpt",
+      "custom/empty"
+    ]
+  },
+
+  // Group Settings
+  "group/settings": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 300,
+      "children-class": "not-memory",
+      "transition-left-to-right": true
+    },
+    "modules": [
+      "custom/settings",
+      "custom/waybarthemes",
+      "custom/wallpaper"
+    ]
+  },
+
+  // Network
+  "network": {
+    //"format-wifi": "<span size='13000'>{icon}</span>", //    
+    //"format-ethernet": "<span size='13000'>󰤭 </span> Disconnected",
+    //"format-linked": "{ifname} (No IP) ",
+    "format-disconnected": "<span size='13000'>  </span>Disconnected",
+    "tooltip-format-wifi": "{essid} : {signalStrength}%",
+    "format-alt": "<span size='13000'>{icon}  {signalStrength}% - {essid}</span>",
+    "max-length": 20,
+    "on-click-right": "~/.config/scripts/rofi-wifi.sh",
+    "format": "<span size='13000'>{icon} </span>{signalStrength}%",
+    "format-icons": {
+      "wifi": [
+        "󰢼",  // Weak (0-33%)
+        "󰢽",  // Medium (34-66%)
+        "󰢾"   // Strong (67-100%)
+      ],
+      "ethernet": "󰈀",
+      "disconnected": "󰖪"
+    }
+  },
+
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "<span size='13000'>{icon} </span> {capacity}%",
+    "format-warning": "<span size='13000'>{icon} </span> {capacity}%",
+    "format-critical": "<span size='13000'>󰂃 </span> {capacity}%",
+    "format-charging": "<span size='13000'> {icon} </span>{capacity}%",
+    "format-plugged": "<span size='13000'> {icon} </span>{capacity}%",
+    "format-alt": "<span size='13000'>{icon} </span> {time}",
+    "format-full": "<span size='13000'> </span>{capacity}%",
+    "format-icons": ["", "", "", "", ""],
+  },
+
+  "power-profiles-daemon": {
+    "format": "<span size='13000'>{icon}</span>",
+    "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+    "tooltip": true,
+    "format-icons": {
+      "default": "",
+      "performance": "",
+      "balanced": "",
+      "power-saver": ""
+    }
+  },
+
+  "pulseaudio": {
+    // "scroll-step": 1, // %, can be a float
+    "format": "<span size='13000'>{icon} </span> {volume}%",
+    "format-alt": "<span size='13000'>{icon} </span> {volume}%  {format_source}",
+    "format-bluetooth": "{volume}% {icon} {format_source}",
+    "format-bluetooth-muted": " {icon} {format_source}",
+    "format-muted": "<span size='13000'>  </span> {format_source}",
+    "format-source": "<span size='13000'></span> {volume}%",
+    "format-source-muted": "",
+    "format-icons": {
+      "headphone": " ",
+      "hands-free": " ",
+      "headset": " ",
+      "phone": " ",
+      "portable": " ",
+      "car": " ",
+      "default": ["", "", ""]
+    },
+    "on-click-right": "pavucontrol"
+  },
+
+  // Bluetooth Manager
+  "bluetooth": {
+    "format": " {status}",
+    "format-disabled": " off",
+    //"format-off": "",
+    "interval": 30,
+    "on-click": "blueman-manager",
+    "format-no-controller": ""
+  },
+
+  // Other
+  "user": {
+    "format": "{user}",
+    "interval": 60,
+    "icon": false
+  },
+
+  // backlight:
+  "backlight": {
+    "format": "{icon} {percent}%",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "scroll-step": 1
+  },
+
+  // Stops idle check when activated
+  "idle_inhibitor": {
+    "format": "<span size='13000'>{icon}</span>",
+    "format-icons": {
+      "activated": "󰷛 ",
+      "deactivated": "󰍹 "
+    }
+  },
+
+}

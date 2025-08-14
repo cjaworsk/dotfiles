@@ -1,0 +1,3 @@
+#!/bin/bash
+readlink /etc/systemd/system/display-manager.service | sed 's|.*/||; s|\.service$||'
+

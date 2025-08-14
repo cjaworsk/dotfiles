@@ -1,0 +1,19 @@
+* {
+  all: unset;
+  font-family: "JetBrainsMono";
+  font-weight: bold;
+}
+
+@import "scss/nord.scss";
+@import "scss/lib.scss";
+
+/*  Top Bar */
+@import "scss/bar.scss";
+
+@import "scss/control_panel.scss";
+/* Sidebar */
+/*@import "scss/big-time.scss";*/
+/*@import "scss/dashboard.scss";
+@import "scss/system.scss";
+@import "scss/mem_circle.scss";
+@import "scss/cpu_circle.scss";*/

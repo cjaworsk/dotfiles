@@ -1,0 +1,94 @@
+.control-panel {
+  background-color: $bg;
+  border-radius: 5px;
+  border: 2px ridge $bg-hover;
+}
+
+.top-panel {
+  border-radius: 10px;
+  margin: 5px;
+  background: transparent;
+}
+
+.mini-bar {
+  background: darken($bg, 3%);
+  border-radius: 15px;
+  margin: 5px 5px;
+  padding: 5px 5px;
+}
+
+.p-button {
+  padding: 0px 10px;
+  margin: 5px;
+  border-radius: 5px;
+  background: $bg;
+  border: 1px ridge darken($fg-alt, 50%);
+}
+
+.p-button:hover {
+  background-color: $red;
+  border: 1px groove $fg;
+}
+
+.empty-button {
+  background: transparent;
+  margin: 0px 30px;
+  padding: 0px 30px;
+}
+
+.toggle-button {
+  background: $bg-alt;
+  margin: 5px;
+  padding: 5px 15px;
+  border-radius: 5px;
+  border: 1px ridge $fg-alt;
+}
+
+.slider-box {
+  background: darken($bg, 3%);
+  margin: 5px;
+  border-radius: 10px;
+}
+
+.slider-box > box > .brightbar,
+.slider-box > box > .volbar {
+  margin: 10px 20px;
+  padding: 5px 0px;
+}
+
+.slider-box> box:last-child > box > .volume_icon {
+    margin: 5px 5px 10px 5px;
+    padding: 5px 5px;
+}
+
+.slider-box > box > .bright_icon {
+  padding: 5px 5px 0px 5px;
+  margin: 5px 5px;
+}
+
+.control-button {
+  border-radius: 5px;
+  border: 1px solid lighten($purple, 10%);
+  background: $purple;
+  margin: 10px;
+}
+.control-button-icon {
+  padding: 5px;
+  margin: 5px;
+}
+.control-button-label {
+  padding: 5px;
+}
+.subtext {
+  font-weight: 200;
+}
+.control-button-side > button {
+  padding: 10px;
+  border-radius: 0px 5px 5px 0px;
+  border: 1px solid lighten($purple, 10%);
+}
+
+.music_module {
+  background-color: darken($bg, 5%);
+  margin: 5px;
+}

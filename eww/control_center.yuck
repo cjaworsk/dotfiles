@@ -1,0 +1,108 @@
+(defwidget toggle-row []
+  (box :class "toggle-row"
+      (button :class "toggle-button" :tooltip "Airplane Mode"
+        (label :text "󰖪"))
+      (button :class "toggle-button"  :tooltip "Volume"
+        (label :text "󰖁"))
+      (button :class "toggle-button"  :tooltip "Mic"
+        (label :text "󰍭"))
+      (button :class "toggle-button" :tooltip "Bluetooth"
+        (label :text "󰂲"))
+  )
+)
+
+(defwidget top-row []
+  (centerbox :vexpand false
+    (box :class "mini-bar"
+      (battery_module :reveal_var 'panel_bat_stack' :stack_num panel_bat_stack)
+      (memory_module))
+    (box 
+      (button :class "empty-button" ""))
+    (box :class "power-row"
+      (button :class "p-button" 
+              :onclick "eww update control_center_visible=false; sleep 0.3; swaylock" 
+        (label :text ""))
+      (button :class "p-button"
+              :onclick "eww update control_center_visible=false; sleep 0.3; swaymsg exit" 
+        (label :text "󰍃"))
+      (button :class "p-button"
+              :onclick "systemctl reboot" 
+        (label :text "󰜉"))
+      (button :class "p-button"
+              :onclick "systemctl poweroff" 
+        (label :text "󰐥"))
+    )
+  )
+)
+
+(defwidget sliders []
+  (box :class "slider-box" :orientation "v"
+    (box :orientation "h" :space-evenly false :spacing "3" :halign "center"
+      (label :text "${
+          brightness_percent > 75 ? "󰃠" :
+          brightness_percent > 50 ? "󰃝" :
+          brightness_percent > 25 ? "󰃟" : "󰃞" }"
+          :class "bright_icon" :tooltip "brightness")
+      (scale :class "brightbar" :value brightness_percent
+          :width 300
+          :tooltip "${brightness_percent}%"
+          :orientation "h" :max 100 :min 0
+          :onchange "brightnessctl set {}%"))
+    (box :valign "center" :halign "center" :orientation "h" 
+          :spacing "3" :space-evenly false
+      (literal :content audio_icon)
+      (scale :class "volbar"
+          :value volume
+          :tooltip "${volume}%"
+          :orientation "h" :width 300
+          :valign "center"
+          :max 100
+          :min 0
+          :timeout "400ms"
+          :onchange "pamixer --set-volume {} && swayosd-client --output-volume=+0"))
+  )
+)
+
+(defwidget wifi_button []
+  (button
+    :onclick "" ;; or your wifi toggle script
+    :class "control-button"
+    :width 180;
+    (box :orientation "horizontal" :space-evenly false :halign "start"
+      (box :class "control-button-icon"
+        (label :text "󰤨" :valign "center")) ;; Nerd Font Wi-Fi icon
+      (box :orientation "vertical" :halign "start" :class "control-button-label"
+        (label :text "Wi-Fi" :class "label" :halign "start")
+        (label :text "${wifi.ssid}" :class "subtext" :limit-width 15 :halign "start") ;; bound to defpoll
+      )
+      (eventbox :orientation "horozontal" :space-evenly false :class "control-button-side"
+        (button ">")
+      )
+    )
+  )
+)
+
+(defwidget middle-panel []
+  (box :orientation "v"
+    (box :orientation "h"
+      (wifi_button))
+  )
+)
+
+(defwindow control_center 
+  :monitor 0
+  :geometry (geometry :x "1520" :y "0" :width "400px" :height "100px")
+  :stacking "overlay"
+  :anchor "top right"
+  (box :class "control-panel" :orientation "v" :space-evenly "false"
+    (box :class "top-panel" :orientation "v" :vexpand "false" :space-evenly false
+      (top-row)
+      (sliders))
+    (box :class "middle-panel" :space-evenly false
+      (middle-panel))
+    (box :class "music_module"
+      (label :text "Music" :halign "start"))
+    ;(music_module)
+    ;(notifications)
+  )
+)

@@ -1,0 +1,18 @@
+(defwidget clock []
+    (label :class "clock" :text {formattime(EWW_TIME, "%H:%M")})
+)
+
+(defwidget clock_widget []
+  (box :class "clock_widget" :orientation "v"
+    (label :class "clock_time" :text {formattime(EWW_TIME, "%H:%M")})
+    (label :class "clock_date" :text {formattime(EWW_TIME, "%A, %B %d")})
+  )
+)
+
+(defwidget big_clock []
+  (box :class "big_clock_container" :orientation "h" :halign "start" :valign "start" :space-evenly false
+    (eventbox :class "big_clock_box"
+        (label :class "big_clock_label" :text {formattime(EWW_TIME, "%H:%M")})
+    )
+  )
+)

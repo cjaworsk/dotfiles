@@ -1,0 +1,8 @@
+(defwidget battery_module [reveal_var stack_num]
+  (eventbox :onhover "eww update ${reveal_var}=1" :onhoverlost "eww update ${reveal_var}=0"
+    (stack :transition "crossfade" :selected {stack_num} :same-size true
+      (button :tooltip "${EWW_BATTERY.BAT0.status}"
+              :class "${bat-class}"
+        (label :text "${bat-icon}"))
+      (label :class "${bat-class}" :text "${EWW_BATTERY.BAT0.capacity}"
+             :tooltip "${EWW_BATTERY.BAT0.status}"))))
