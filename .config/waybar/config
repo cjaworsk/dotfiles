@@ -1,6 +1,0 @@
-// Current Config //
-{
-  "include": [
-    "~/.config/waybar/wallust/wal-waybar.jsonc"
-  ]
-}
